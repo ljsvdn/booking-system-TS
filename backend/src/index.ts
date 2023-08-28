@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import "./db/database";
+
 const app = express();
 
 // middleware to parse the request body
@@ -14,7 +16,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // start the express server
-const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
 });
