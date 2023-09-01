@@ -9,6 +9,8 @@ interface RequestWithUser extends Request {
 
 dotenv.config();
 
+export let invalidatedTokens: string[] = [];
+
 export const authMiddleware = (
   req: RequestWithUser,
   res: Response,
@@ -16,7 +18,7 @@ export const authMiddleware = (
 ) => {
   const token = req.headers.authorization?.split(" ")[1];
 
-  if (!token) {
+  if (!token || invalidatedTokens.includes(token)) {
     return res.status(401).json({ error: "You must be logged in." });
   }
 
@@ -30,4 +32,16 @@ export const authMiddleware = (
   }
 };
 
-export default authMiddleware;
+export const requireRole = (...roles: string[]) => {
+  return (req: RequestWithUser, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ error: "You must be logged in." });
+    }
+
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ error: "You are not authorized." });
+    }
+
+    next();
+  };
+};

@@ -5,7 +5,6 @@ class Booking extends Model {
   public id!: number;
   public bookingTimeId!: number;
   public serviceId!: number;
-  public serviceProviderId!: number;
   public customerId!: number;
   public numberOfGuests!: number;
   public foodPreferences!: string;
@@ -17,25 +16,21 @@ class Booking extends Model {
 Booking.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
 
     bookingTimeId: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     serviceId: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
-    serviceProviderId: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     customerId: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

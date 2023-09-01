@@ -9,7 +9,7 @@ class BookingTime extends Model {
 BookingTime.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },

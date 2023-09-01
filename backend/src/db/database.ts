@@ -1,7 +1,4 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT } = process.env;
 
@@ -11,9 +8,9 @@ const sequelize = new Sequelize({
   host: DB_HOST,
   port: Number(DB_PORT),
   username: DB_USERNAME,
-  password: DB_PASSWORD,
+  password: String(DB_PASSWORD),
   database: DB_NAME,
-  logging: console.log,
+  logging: false,
 });
 
 // test the connection to the database
