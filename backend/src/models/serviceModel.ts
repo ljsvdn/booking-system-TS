@@ -25,7 +25,7 @@ Service.init(
   },
   {
     tableName: "services",
-    sequelize, // passing the `sequelize` instance is required
+    sequelize,
   }
 );
 

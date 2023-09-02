@@ -16,8 +16,10 @@ const apiLimiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
+// middleware to log HTTP requests
 app.use(requestLogger);
 
+// middleware to limit repeated requests to public APIs and/or endpoints
 app.use("/api/", apiLimiter);
 
 // middleware to parse the request body

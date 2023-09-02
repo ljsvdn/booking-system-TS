@@ -1,12 +1,13 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../db/database";
-import bcrypt from "bcrypt";
 
 class User extends Model {
   public id!: number;
+  public name!: string;
   public email!: string;
-  public password!: string;
-  public role!: string;
+  public phoneNumber!: string;
+  public preferences!: string;
+  public subscribedToNewsletter!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -19,28 +20,30 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    name: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
     email: {
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    password: {
+    phoneNumber: {
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    role: {
+    preferences: {
       type: new DataTypes.STRING(128),
+      allowNull: true,
+    },
+    subscribedToNewsletter: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: "Customer",
+      defaultValue: false,
     },
   },
 
   {
-    hooks: {
-      beforeCreate: async (user) => {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      },
-    },
     tableName: "users",
     sequelize,
   }
