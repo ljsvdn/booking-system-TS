@@ -5,6 +5,7 @@ import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { requestLogger } from "./middlewares/requestLogger";
+import UserController from "./controllers/userController";
 import "./db/database";
 import "./db/associations";
 
@@ -24,6 +25,9 @@ app.use("/api/", apiLimiter);
 
 // middleware to parse the request body
 app.use(express.json());
+
+// routes
+app.use("/api/users", UserController);
 
 // middleware to handle errors
 app.use(globalErrorHandler);
