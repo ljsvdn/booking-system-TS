@@ -1,5 +1,6 @@
 import express from "express";
 import UserService from "../services/userService";
+import MailerService from "../services/mailerService";
 
 const UserController = express.Router();
 
@@ -15,6 +16,14 @@ UserController.post("/create", async (req, res, next) => {
       preferences,
       subscribedToNewsletter,
     });
+
+    // Send welcome email
+    await MailerService.sendEmail(
+      email,
+      "Welcome to Our Service",
+      `Hello ${name},\n\nThank you for registering. We're excited to have you on board!`
+    );
+
     res.status(201).json(newUser);
   } catch (error) {
     next(error);

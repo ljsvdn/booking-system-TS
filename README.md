@@ -25,7 +25,7 @@ This is a general-purpose booking system built using TypeScript, Node.js, Expres
 2. Run `npm install` to install dependencies.
 3. Copy the `.env.example` file to `.env` and update the environment variables.
 4. Run `tsc` to compile TypeScript to JavaScript.
-5. Run `node dist/index.js` to start the server.
+5. Run `npm run dev` to start the server.
 
 ### Frontend Setup
 
