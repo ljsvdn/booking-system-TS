@@ -7,11 +7,18 @@ const UserController = express.Router();
 // new user
 UserController.post("/create", async (req, res, next) => {
   try {
-    const { email, name, phoneNumber, preferences, subscribedToNewsletter } =
-      req.body;
+    const {
+      email,
+      name,
+      password,
+      phoneNumber,
+      preferences,
+      subscribedToNewsletter,
+    } = req.body;
     const newUser = await UserService.createUser({
       email,
       name,
+      password,
       phoneNumber,
       preferences,
       subscribedToNewsletter,

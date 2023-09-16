@@ -5,7 +5,9 @@ import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { requestLogger } from "./middlewares/requestLogger";
+import { verifyJWT } from "./middlewares/verifyJWT";
 import UserController from "./controllers/userController";
+import AuthController from "./controllers/authController";
 import "./db/database";
 import "./db/associations";
 
@@ -27,7 +29,14 @@ app.use("/api/", apiLimiter);
 app.use(express.json());
 
 // routes
-app.use("/api/users", UserController);
+app.use("/api/auth", AuthController);
+app.use(
+  "/api/users",
+  (req, res, next) => {
+    req.path === "/create" ? next() : verifyJWT(req, res, next);
+  },
+  UserController
+);
 
 // middleware to handle errors
 app.use(globalErrorHandler);

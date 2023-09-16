@@ -1,9 +1,12 @@
 import User from "../models/userModel";
+import AuthService from "./authService";
 import HttpError from "../utility/HttpError";
 
 export default class UserService {
-  static async createUser(data: any) {
-    const newUser = await User.create(data);
+  static async createUser(user: any) {
+    user.password = await AuthService.hashPassword(user.password);
+
+    const newUser = await User.create(user);
     return newUser;
   }
 
@@ -14,6 +17,14 @@ export default class UserService {
 
   static async getUserById(id: number) {
     const user = await User.findByPk(id);
+    if (!user) {
+      throw new HttpError("User not found", 404);
+    }
+    return user;
+  }
+
+  static async getUserByEmail(email: string) {
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       throw new HttpError("User not found", 404);
     }

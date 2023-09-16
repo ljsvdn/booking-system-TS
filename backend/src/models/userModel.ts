@@ -5,6 +5,7 @@ class User extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
+  public password!: string;
   public phoneNumber!: string;
   public preferences!: string;
   public subscribedToNewsletter!: boolean;
@@ -25,6 +26,10 @@ User.init(
       allowNull: false,
     },
     email: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
+    password: {
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
