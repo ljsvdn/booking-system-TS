@@ -21,6 +21,7 @@ BookingTime.init(
   {
     tableName: "booking_times",
     sequelize,
+    timestamps: true,
   }
 );
 

@@ -1,13 +1,49 @@
 import { Booking, BookingInstance } from "../models/bookingModel";
-
-import BookingTime from "../models/bookingTimeModel";
 import User from "../models/userModel";
+import BookingTime from "../models/bookingTimeModel";
+import Service from "../models/serviceModel";
 import HttpError from "../utility/HttpError";
 import MailerService from "./mailerService";
 
 export default class BookingService {
   static async createBooking(data: any) {
-    const newBooking = await Booking.create(data);
+    const service = await Service.findByPk(data.serviceId);
+
+    if (!service) {
+      throw new HttpError("Service not found", 404);
+    }
+
+    let bookingTimeId = data.bookingTimeId;
+
+    if (service.booking_type === "predefined") {
+      const bookingTime = await BookingTime.findByPk(bookingTimeId);
+
+      if (!bookingTime) {
+        throw new HttpError("Booking time not found", 404);
+      }
+    } else {
+      // Create a new booking time
+      const newBookingTime = await BookingTime.create({ time: data.date });
+      bookingTimeId = newBookingTime.id;
+    }
+
+    const existingBooking = await Booking.findOne({
+      where: {
+        serviceId: data.serviceId,
+        bookingTimeId: bookingTimeId,
+        date: data.date,
+      },
+    });
+
+    if (existingBooking) {
+      throw new HttpError("Booking already exists", 409);
+    }
+
+    const newBooking = await Booking.create({
+      ...data,
+      bookingTimeId,
+    });
+
     return newBooking;
   }
 
@@ -80,21 +116,24 @@ export default class BookingService {
   static async confirmBooking(id: number) {
     const booking = (await Booking.findByPk(id, {
       include: [
-        {
-          model: User,
-          as: "user",
-        },
+        { model: User, as: "user" },
+        { model: BookingTime, as: "bookingTime" },
       ],
     })) as BookingInstance;
 
     if (!booking) {
       throw new HttpError("Booking not found", 404);
     }
-
     const updatedBooking = await booking.update({ confirmed: true });
 
-    if (booking.user && booking.user.email) {
-      await MailerService.sendConfirmationEmail(booking.user.email, booking.id);
+    if (booking.user) {
+      await MailerService.sendConfirmationEmail(
+        booking.user.email,
+        booking.user.name,
+        booking.date.toString()
+      );
     }
+
+    return updatedBooking;
   }
 }

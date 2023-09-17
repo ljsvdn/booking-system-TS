@@ -5,6 +5,7 @@ class Service extends Model {
   public id!: number;
   public name!: string;
   public description!: string;
+  public booking_type!: string;
 }
 
 Service.init(
@@ -21,6 +22,11 @@ Service.init(
     description: {
       type: new DataTypes.STRING(256),
       allowNull: true,
+    },
+    booking_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "predefined",
     },
   },
   {

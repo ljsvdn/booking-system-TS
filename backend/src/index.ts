@@ -8,6 +8,7 @@ import { requestLogger } from "./middlewares/requestLogger";
 import { verifyJWT } from "./middlewares/verifyJWT";
 import UserController from "./controllers/userController";
 import AuthController from "./controllers/authController";
+import BookingController from "./controllers/bookingController";
 import "./db/database";
 import "./db/associations";
 
@@ -37,6 +38,7 @@ app.use(
   },
   UserController
 );
+app.use("/api/bookings", verifyJWT, BookingController);
 
 // middleware to handle errors
 app.use(globalErrorHandler);

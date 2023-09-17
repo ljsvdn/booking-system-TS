@@ -1,6 +1,7 @@
 import { Model, DataTypes, Association } from "sequelize";
 import sequelize from "../db/database";
 import User from "./userModel";
+import BookingTime from "./bookingTimeModel";
 
 export interface BookingInstance extends Model {
   id: number;
@@ -10,8 +11,10 @@ export interface BookingInstance extends Model {
   numberOfGuests: number;
   foodPreferences: string;
   confirmed: boolean;
+  date: Date;
 
   user?: User;
+  bookingTime?: BookingTime;
 }
 
 export class Booking extends Model implements BookingInstance {
@@ -22,9 +25,11 @@ export class Booking extends Model implements BookingInstance {
   public numberOfGuests!: number;
   public foodPreferences!: string;
   public confirmed!: boolean;
+  public date!: Date;
 
   public static associations: {
     user: Association<Booking, User>;
+    bookingTime: Association<Booking, BookingTime>;
   };
 }
 
@@ -60,6 +65,10 @@ Booking.init(
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false,
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {

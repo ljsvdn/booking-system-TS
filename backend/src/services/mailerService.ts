@@ -20,8 +20,25 @@ export default class MailerService {
       console.error("Failed to send email:", error);
     }
   }
+
+  static async sendConfirmationEmail(to: string, name: string, date: string) {
+    const msg = {
+      to: to,
+      from: "lvbookingsystem@gmail.com",
+      subject: "Booking Confirmation",
+      text: `Hello ${name}, your booking on ${date} has been confirmed.`,
+    };
+
+    try {
+      await sgMail.send(msg);
+      console.log("Email sent successfully!");
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    }
+  }
 }
-// remove test code
+
+// remove test code before deployment
 async function testMailerService() {
   try {
     await MailerService.sendEmail(

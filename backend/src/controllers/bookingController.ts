@@ -12,6 +12,7 @@ BookingController.post("/create", async (req, res, next) => {
       customerId,
       numberOfGuests,
       foodPreferences,
+      date,
     } = req.body;
     const newBooking = await BookingService.createBooking({
       bookingTimeId,
@@ -19,6 +20,7 @@ BookingController.post("/create", async (req, res, next) => {
       customerId,
       numberOfGuests,
       foodPreferences,
+      date,
     });
     res.status(201).json(newBooking);
   } catch (error) {
@@ -58,6 +60,7 @@ BookingController.put("/:id", async (req, res, next) => {
       customerId,
       numberOfGuests,
       foodPreferences,
+      date,
     } = req.body;
     const updatedBooking = await BookingService.updateBooking(Number(id), {
       bookingTimeId,
@@ -65,6 +68,7 @@ BookingController.put("/:id", async (req, res, next) => {
       customerId,
       numberOfGuests,
       foodPreferences,
+      date,
     });
     res.status(200).json(updatedBooking);
   } catch (error) {
