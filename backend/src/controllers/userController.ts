@@ -1,6 +1,7 @@
 import express from "express";
 import UserService from "../services/userService";
 import MailerService from "../services/mailerService";
+import { isAdmin } from "../middlewares/isAdmin";
 
 const UserController = express.Router();
 
@@ -38,7 +39,7 @@ UserController.post("/create", async (req, res, next) => {
 });
 
 // get all users
-UserController.get("/", async (req, res, next) => {
+UserController.get("/", isAdmin, async (req, res, next) => {
   try {
     const users = await UserService.getAllUsers();
     res.status(200).json(users);
@@ -51,6 +52,9 @@ UserController.get("/", async (req, res, next) => {
 UserController.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (req.user!.userId !== Number(id)) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
     const user = await UserService.getUserById(Number(id));
     res.status(200).json(user);
   } catch (error) {

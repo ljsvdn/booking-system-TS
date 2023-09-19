@@ -1,5 +1,12 @@
 import AuthService from "../services/authService";
 
+interface DecodedToken {
+  userId: number;
+  role: string;
+  iat: number;
+  exp: number;
+}
+
 export const verifyJWT = (req: any, res: any, next: any) => {
   const authHeader = req.headers["authorization"];
 
@@ -9,15 +16,12 @@ export const verifyJWT = (req: any, res: any, next: any) => {
 
   const token = authHeader.split(" ")[1];
 
-  console.log("Received Token:", token);
-
   try {
-    const decoded = AuthService.verifyToken(token);
-    console.log("Decoded Token:", decoded);
+    const decoded = AuthService.verifyToken(token) as DecodedToken;
     req.user = decoded;
+    req.role = decoded.role;
     next();
   } catch (error) {
-    console.log("Token Verification Error:", error);
     res.status(401).json({ message: "Unauthorized" });
   }
 };

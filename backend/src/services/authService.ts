@@ -5,7 +5,11 @@ const { JWT_SECRET } = process.env;
 
 export default class AuthService {
   static generateToken(payload: any) {
-    return jwt.sign(payload, JWT_SECRET as string, { expiresIn: "24h" });
+    return jwt.sign(
+      { userId: payload.userId, role: payload.role },
+      JWT_SECRET as string,
+      { expiresIn: "24h" }
+    );
   }
 
   static verifyToken(token: string) {

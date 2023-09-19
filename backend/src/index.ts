@@ -6,9 +6,11 @@ import rateLimit from "express-rate-limit";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { requestLogger } from "./middlewares/requestLogger";
 import { verifyJWT } from "./middlewares/verifyJWT";
+import { isAdmin } from "./middlewares/isAdmin";
 import UserController from "./controllers/userController";
 import AuthController from "./controllers/authController";
 import BookingController from "./controllers/bookingController";
+import ServiceController from "./controllers/serviceController";
 import "./db/database";
 import "./db/associations";
 
@@ -36,8 +38,10 @@ app.use(
   (req, res, next) => {
     req.path === "/create" ? next() : verifyJWT(req, res, next);
   },
+  isAdmin,
   UserController
 );
+app.use("/api/services", verifyJWT, ServiceController);
 app.use("/api/bookings", verifyJWT, BookingController);
 
 // middleware to handle errors

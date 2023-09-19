@@ -1,5 +1,6 @@
 import express from "express";
 import BookingService from "../services/bookingService";
+import { isAdmin } from "../middlewares/isAdmin";
 
 const BookingController = express.Router();
 
@@ -29,7 +30,7 @@ BookingController.post("/create", async (req, res, next) => {
 });
 
 // get all bookings for a service
-BookingController.get("/all/:serviceId", async (req, res, next) => {
+BookingController.get("/all/:serviceId", isAdmin, async (req, res, next) => {
   try {
     const { serviceId } = req.params;
     const bookings = await BookingService.getAllBookings(Number(serviceId));
@@ -88,7 +89,7 @@ BookingController.delete("/:id", async (req, res, next) => {
 });
 
 // confirm booking
-BookingController.put("/:id/confirm", async (req, res, next) => {
+BookingController.put("/:id/confirm", isAdmin, async (req, res, next) => {
   try {
     const { id } = req.params;
     await BookingService.confirmBooking(Number(id));
