@@ -3,8 +3,13 @@ import bcrypt from "bcrypt";
 
 const { JWT_SECRET } = process.env;
 
+interface AuthPayload {
+  userId: number;
+  role?: string;
+}
+
 export default class AuthService {
-  static generateToken(payload: any) {
+  static generateToken(payload: AuthPayload) {
     return jwt.sign(
       { userId: payload.userId, role: payload.role },
       JWT_SECRET as string,

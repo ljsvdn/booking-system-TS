@@ -5,8 +5,8 @@ class User extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
-  public role!: string;
   public password!: string;
+  public role!: string;
   public phoneNumber!: string;
   public preferences!: string;
   public subscribedToNewsletter!: boolean;

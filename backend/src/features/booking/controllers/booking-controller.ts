@@ -1,6 +1,6 @@
 import express from "express";
 import BookingService from "../services/booking-service";
-import { isAdmin } from "../../middlewares/is-admin";
+import { isAdmin } from "../../../middlewares/is-admin";
 
 const BookingController = express.Router();
 
@@ -22,6 +22,7 @@ BookingController.post("/create", async (req, res, next) => {
       numberOfGuests,
       foodPreferences,
       date,
+      confirmed: false,
     });
     res.status(201).json(newBooking);
   } catch (error) {
@@ -70,6 +71,7 @@ BookingController.put("/:id", async (req, res, next) => {
       numberOfGuests,
       foodPreferences,
       date,
+      confirmed: false,
     });
     res.status(200).json(updatedBooking);
   } catch (error) {

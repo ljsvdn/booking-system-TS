@@ -1,7 +1,7 @@
 import express from "express";
 import UserService from "../services/user-service";
-import MailerService from "../../utility/mailer-service";
-import { isAdmin } from "../../middlewares/is-admin";
+import MailerService from "../../../utility/mailer-service";
+import { isAdmin } from "../../../middlewares/is-admin";
 
 const UserController = express.Router();
 
@@ -12,6 +12,7 @@ UserController.post("/create", async (req, res, next) => {
       email,
       name,
       password,
+      role,
       phoneNumber,
       preferences,
       subscribedToNewsletter,
@@ -20,6 +21,7 @@ UserController.post("/create", async (req, res, next) => {
       email,
       name,
       password,
+      role,
       phoneNumber,
       preferences,
       subscribedToNewsletter,
@@ -42,7 +44,7 @@ UserController.post("/create", async (req, res, next) => {
 UserController.get("/", isAdmin, async (req, res, next) => {
   try {
     const users = await UserService.getAllUsers();
-    res.status(200).json(users);
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -56,7 +58,7 @@ UserController.get("/:id", async (req, res, next) => {
       return res.status(403).json({ message: "Forbidden" });
     }
     const user = await UserService.getUserById(Number(id));
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
     next(error);
   }
@@ -66,16 +68,23 @@ UserController.get("/:id", async (req, res, next) => {
 UserController.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { email, name, phoneNumber, preferences, subscribedToNewsletter } =
-      req.body;
+    const {
+      email,
+      name,
+      role,
+      phoneNumber,
+      preferences,
+      subscribedToNewsletter,
+    } = req.body;
     const updatedUser = await UserService.updateUser(Number(id), {
       email,
       name,
+      role,
       phoneNumber,
       preferences,
       subscribedToNewsletter,
     });
-    res.status(200).json(updatedUser);
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }
@@ -86,7 +95,7 @@ UserController.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedUser = await UserService.deleteUser(Number(id));
-    res.status(200).json(deletedUser);
+    res.json(deletedUser);
   } catch (error) {
     next(error);
   }
@@ -97,7 +106,7 @@ UserController.put("/:id/subscribe", async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedUser = await UserService.subscribeToNewsletter(Number(id));
-    res.status(200).json(updatedUser);
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }
@@ -108,7 +117,7 @@ UserController.put("/:id/unsubscribe", async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedUser = await UserService.unsubscribeFromNewsletter(Number(id));
-    res.status(200).json(updatedUser);
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }

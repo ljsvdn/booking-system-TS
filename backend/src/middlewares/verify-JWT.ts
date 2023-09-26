@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import AuthService from "../features/auth/services/auth-service";
 
 interface DecodedToken {
@@ -7,7 +8,7 @@ interface DecodedToken {
   exp: number;
 }
 
-export const verifyJWT = (req: any, res: any, next: any) => {
+export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader) {

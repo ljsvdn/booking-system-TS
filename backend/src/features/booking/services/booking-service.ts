@@ -2,18 +2,28 @@ import { Booking, BookingInstance } from "../models/booking-model";
 import User from "../../user/models/user-model";
 import BookingTime from "../../bookingtime/models/booking-time-model";
 import Service from "../../service/models/service-model";
-import HttpError from "../../utility/http-error";
-import MailerService from "../../utility/mailer-service";
+import HttpError from "../../../utility/http-error";
+import MailerService from "../../../utility/mailer-service";
+
+interface BookingPayload {
+  bookingTimeId: number;
+  serviceId: number;
+  customerId: number;
+  numberOfGuests: number;
+  foodPreferences: string;
+  date: Date;
+  confirmed: false;
+}
 
 export default class BookingService {
-  static async createBooking(data: any) {
-    const service = await Service.findByPk(data.serviceId);
+  static async createBooking(payload: BookingPayload) {
+    const service = await Service.findByPk(payload.serviceId);
 
     if (!service) {
       throw new HttpError("Service not found", 404);
     }
 
-    let bookingTimeId = data.bookingTimeId;
+    let bookingTimeId = payload.bookingTimeId;
 
     if (service.booking_type === "predefined") {
       const bookingTime = await BookingTime.findByPk(bookingTimeId);
@@ -23,15 +33,15 @@ export default class BookingService {
       }
     } else {
       // Create a new booking time
-      const newBookingTime = await BookingTime.create({ time: data.date });
+      const newBookingTime = await BookingTime.create({ time: payload.date });
       bookingTimeId = newBookingTime.id;
     }
 
     const existingBooking = await Booking.findOne({
       where: {
-        serviceId: data.serviceId,
+        serviceId: payload.serviceId,
         bookingTimeId: bookingTimeId,
-        date: data.date,
+        date: payload.date,
       },
     });
 
@@ -40,7 +50,7 @@ export default class BookingService {
     }
 
     const newBooking = await Booking.create({
-      ...data,
+      ...payload,
       bookingTimeId,
     });
 
@@ -76,12 +86,13 @@ export default class BookingService {
     return booking;
   }
 
-  static async updateBooking(id: number, data: any) {
+  static async updateBooking(id: number, payload: BookingPayload) {
     const booking = await Booking.findByPk(id);
     if (!booking) {
       throw new HttpError("Booking not found", 404);
     }
-    const updatedBooking = await booking.update(data);
+
+    const updatedBooking = await booking.update(payload);
     return updatedBooking;
   }
 

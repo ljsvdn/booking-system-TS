@@ -1,5 +1,5 @@
 import { Model, DataTypes, Association } from "sequelize";
-import sequelize from "../../db/database";
+import sequelize from "../../../db/database";
 import User from "../../user/models/user-model";
 import BookingTime from "../../bookingtime/models/booking-time-model";
 
