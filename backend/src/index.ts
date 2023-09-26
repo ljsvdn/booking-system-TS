@@ -7,10 +7,10 @@ import { globalErrorHandler } from "./middlewares/global-error-handler";
 import { requestLogger } from "./middlewares/request-logger";
 import { verifyJWT } from "./middlewares/verify-JWT";
 import { isAdmin } from "./middlewares/is-admin";
-import UserController from "./user/controllers/user-controller";
-import AuthController from "./auth/controllers/auth-controller";
-import BookingController from "./booking/controllers/booking-controller";
-import ServiceController from "./service/controllers/service-controller";
+import UserController from "./features/user/controllers/user-controller";
+import AuthController from "./features/auth/controllers/auth-controller";
+import BookingController from "./features/booking/controllers/booking-controller";
+import ServiceController from "./features/service/controllers/service-controller";
 import "./db/database";
 import "./db/associations";
 
