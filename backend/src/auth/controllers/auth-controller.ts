@@ -1,6 +1,6 @@
 import express from "express";
-import UserService from "../services/userService";
-import AuthService from "../services/authService";
+import UserService from "../../user/services/user-service";
+import AuthService from "../services/auth-service";
 
 const AuthController = express.Router();
 

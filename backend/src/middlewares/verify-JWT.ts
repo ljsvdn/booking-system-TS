@@ -1,4 +1,4 @@
-import AuthService from "../services/authService";
+import AuthService from "../auth/services/auth-service";
 
 interface DecodedToken {
   userId: number;

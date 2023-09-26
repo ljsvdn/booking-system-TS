@@ -1,9 +1,9 @@
-import { Booking, BookingInstance } from "../models/bookingModel";
-import User from "../models/userModel";
-import BookingTime from "../models/bookingTimeModel";
-import Service from "../models/serviceModel";
-import HttpError from "../utility/HttpError";
-import MailerService from "./mailerService";
+import { Booking, BookingInstance } from "../models/booking-model";
+import User from "../../user/models/user-model";
+import BookingTime from "../../bookingtime/models/booking-time-model";
+import Service from "../../service/models/service-model";
+import HttpError from "../../utility/http-error";
+import MailerService from "../../utility/mailer-service";
 
 export default class BookingService {
   static async createBooking(data: any) {

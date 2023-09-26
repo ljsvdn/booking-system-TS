@@ -1,6 +1,6 @@
 import express from "express";
-import ServiceService from "../services/serviceService";
-import { isAdmin } from "../middlewares/isAdmin";
+import ServiceService from "../services/service-service";
+import { isAdmin } from "../../middlewares/is-admin";
 
 const ServiceController = express.Router();
 

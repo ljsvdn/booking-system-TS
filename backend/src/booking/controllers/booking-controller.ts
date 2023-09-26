@@ -1,6 +1,6 @@
 import express from "express";
-import BookingService from "../services/bookingService";
-import { isAdmin } from "../middlewares/isAdmin";
+import BookingService from "../services/booking-service";
+import { isAdmin } from "../../middlewares/is-admin";
 
 const BookingController = express.Router();
 

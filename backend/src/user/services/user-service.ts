@@ -1,6 +1,6 @@
-import User from "../models/userModel";
-import AuthService from "./authService";
-import HttpError from "../utility/HttpError";
+import User from "../models/user-model";
+import AuthService from "../../auth/services/auth-service";
+import HttpError from "../../utility/http-error";
 
 export default class UserService {
   static async createUser(user: any) {

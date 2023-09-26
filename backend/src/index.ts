@@ -3,14 +3,14 @@ dotenv.config();
 
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
-import { globalErrorHandler } from "./middlewares/globalErrorHandler";
-import { requestLogger } from "./middlewares/requestLogger";
-import { verifyJWT } from "./middlewares/verifyJWT";
-import { isAdmin } from "./middlewares/isAdmin";
-import UserController from "./controllers/userController";
-import AuthController from "./controllers/authController";
-import BookingController from "./controllers/bookingController";
-import ServiceController from "./controllers/serviceController";
+import { globalErrorHandler } from "./middlewares/global-error-handler";
+import { requestLogger } from "./middlewares/request-logger";
+import { verifyJWT } from "./middlewares/verify-JWT";
+import { isAdmin } from "./middlewares/is-admin";
+import UserController from "./user/controllers/user-controller";
+import AuthController from "./auth/controllers/auth-controller";
+import BookingController from "./booking/controllers/booking-controller";
+import ServiceController from "./service/controllers/service-controller";
 import "./db/database";
 import "./db/associations";
 

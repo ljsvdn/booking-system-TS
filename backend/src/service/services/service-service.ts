@@ -1,5 +1,5 @@
-import Service from "../models/serviceModel";
-import HttpError from "../utility/HttpError";
+import Service from "../models/service-model";
+import HttpError from "../../utility/http-error";
 
 export default class ServiceService {
   static async createService(data: any) {

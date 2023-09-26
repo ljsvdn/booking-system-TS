@@ -1,8 +1,8 @@
 import sequelize from "./database";
-import { Booking } from "../models/bookingModel";
-import BookingTime from "../models/bookingTimeModel";
-import Service from "../models/serviceModel";
-import User from "../models/userModel";
+import { Booking } from "../booking/models/booking-model";
+import BookingTime from "../bookingtime/models/booking-time-model";
+import Service from "../service/models/service-model";
+import User from "../user/models/user-model";
 
 // set up associations
 Booking.belongsTo(BookingTime, {

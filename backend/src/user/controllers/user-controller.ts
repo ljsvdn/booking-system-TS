@@ -1,7 +1,7 @@
 import express from "express";
-import UserService from "../services/userService";
-import MailerService from "../services/mailerService";
-import { isAdmin } from "../middlewares/isAdmin";
+import UserService from "../services/user-service";
+import MailerService from "../../utility/mailer-service";
+import { isAdmin } from "../../middlewares/is-admin";
 
 const UserController = express.Router();
 
