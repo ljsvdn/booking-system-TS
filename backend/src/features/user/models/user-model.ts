@@ -2,17 +2,17 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../../../db/database";
 
 class User extends Model {
-  public id!: number;
-  public name!: string;
-  public email!: string;
-  public password!: string;
-  public role!: string;
-  public phoneNumber!: string;
-  public preferences!: string;
-  public subscribedToNewsletter!: boolean;
+  id!: number;
+  name!: string;
+  email!: string;
+  password!: string;
+  role!: string;
+  phoneNumber!: string;
+  preferences!: string;
+  subscribedToNewsletter!: boolean;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  readonly createdAt!: Date;
+  readonly updatedAt!: Date;
 }
 
 User.init(

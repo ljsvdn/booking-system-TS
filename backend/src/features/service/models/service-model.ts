@@ -2,10 +2,10 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../../../db/database";
 
 class Service extends Model {
-  public id!: number;
-  public name!: string;
-  public description!: string;
-  public booking_type!: string;
+  id!: number;
+  name!: string;
+  description!: string;
+  booking_type!: string;
 }
 
 Service.init(

@@ -2,8 +2,8 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../../../db/database";
 
 class BookingTime extends Model {
-  public id!: number;
-  public time!: Date;
+  id!: number;
+  time!: Date;
 }
 
 BookingTime.init(

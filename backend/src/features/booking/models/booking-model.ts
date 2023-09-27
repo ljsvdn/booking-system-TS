@@ -18,16 +18,16 @@ export interface BookingInstance extends Model {
 }
 
 export class Booking extends Model implements BookingInstance {
-  public id!: number;
-  public bookingTimeId!: number;
-  public serviceId!: number;
-  public customerId!: number;
-  public numberOfGuests!: number;
-  public foodPreferences!: string;
-  public confirmed!: boolean;
-  public date!: Date;
+  id!: number;
+  bookingTimeId!: number;
+  serviceId!: number;
+  customerId!: number;
+  numberOfGuests!: number;
+  foodPreferences!: string;
+  confirmed!: boolean;
+  date!: Date;
 
-  public static associations: {
+  static associations: {
     user: Association<Booking, User>;
     bookingTime: Association<Booking, BookingTime>;
   };
