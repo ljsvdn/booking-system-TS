@@ -1,4 +1,4 @@
-import { container } from "tsyringe";
+import { container as tsyringeContainer } from "tsyringe";
 
 declare global {
   namespace Express {
@@ -8,7 +8,7 @@ declare global {
         role: string;
       };
       role?: string;
-      container: typeof container;
+      container: typeof tsyringeContainer;
     }
   }
 }

@@ -8,7 +8,7 @@ interface ServicePayload {
 }
 
 export default class ServiceService {
-  static async createService(payload: ServicePayload) {
+  async createService(payload: ServicePayload) {
     const newService = await Service.create({
       name: payload.name,
       description: payload.description,
@@ -17,7 +17,7 @@ export default class ServiceService {
     return newService;
   }
 
-  static async updateService(id: number, payload: ServicePayload) {
+  async updateService(id: number, payload: ServicePayload) {
     const service = await Service.findByPk(id);
     if (!service) {
       throw new HttpError("Service not found", 404);
@@ -26,7 +26,7 @@ export default class ServiceService {
     return updatedService;
   }
 
-  static async deleteService(id: number) {
+  async deleteService(id: number) {
     const service = await Service.findByPk(id);
     if (!service) {
       throw new HttpError("Service not found", 404);
@@ -35,12 +35,12 @@ export default class ServiceService {
     return { message: "Service deleted successfully" };
   }
 
-  static async getAllServices() {
+  async getAllServices() {
     const services = await Service.findAll();
     return services;
   }
 
-  static async getServiceById(id: number) {
+  async getServiceById(id: number) {
     const service = await Service.findByPk(id);
     if (!service) {
       throw new HttpError("Service not found", 404);

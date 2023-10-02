@@ -1,9 +1,10 @@
+import { injectable, inject } from "tsyringe";
 import { Booking, BookingInstance } from "../models/booking-model";
 import User from "../../user/models/user-model";
 import BookingTime from "../../bookingtime/models/booking-time-model";
 import Service from "../../service/models/service-model";
 import HttpError from "../../../utility/http-error";
-import MailerService from "../../../utility/mailer-service";
+import { MailerService } from "../../../utility/mailer-service";
 
 interface BookingPayload {
   bookingTimeId: number;
@@ -15,8 +16,13 @@ interface BookingPayload {
   confirmed: false;
 }
 
+@injectable()
 export default class BookingService {
-  static async createBooking(payload: BookingPayload) {
+  constructor(
+    @inject("MailerService") private mailerService: typeof MailerService
+  ) {}
+
+  async createBooking(payload: BookingPayload) {
     const service = await Service.findByPk(payload.serviceId);
 
     if (!service) {
@@ -57,12 +63,12 @@ export default class BookingService {
     return newBooking;
   }
 
-  static async getAllBookings(serviceId: number) {
+  async getAllBookings(serviceId: number) {
     const bookings = await Booking.findAll({ where: { serviceId } });
     return bookings;
   }
 
-  static async getBookingById(id: number) {
+  async getBookingById(id: number) {
     const booking = await Booking.findByPk(id);
     if (!booking) {
       throw new HttpError("Booking not found", 404);
@@ -70,7 +76,7 @@ export default class BookingService {
     return booking;
   }
 
-  static async getBookingByUserId(userId: number) {
+  async getBookingByUserId(userId: number) {
     const booking = await Booking.findAll({ where: { userId } });
     if (!booking) {
       throw new HttpError("Booking not found", 404);
@@ -78,7 +84,7 @@ export default class BookingService {
     return booking;
   }
 
-  static async getBookingByDate(date: string) {
+  async getBookingByDate(date: string) {
     const booking = await Booking.findAll({ where: { date } });
     if (!booking) {
       throw new HttpError("Booking not found", 404);
@@ -86,7 +92,7 @@ export default class BookingService {
     return booking;
   }
 
-  static async updateBooking(id: number, payload: BookingPayload) {
+  async updateBooking(id: number, payload: BookingPayload) {
     const booking = await Booking.findByPk(id);
     if (!booking) {
       throw new HttpError("Booking not found", 404);
@@ -96,7 +102,7 @@ export default class BookingService {
     return updatedBooking;
   }
 
-  static async deleteBooking(id: number) {
+  async deleteBooking(id: number) {
     const booking = await Booking.findByPk(id);
     if (!booking) {
       throw new HttpError("Booking not found", 404);
@@ -104,12 +110,12 @@ export default class BookingService {
     await booking.destroy();
   }
 
-  static async getBookingsByUserId(userId: number) {
+  async getBookingsByUserId(userId: number) {
     const bookings = await Booking.findAll({ where: { userId } });
     return bookings;
   }
 
-  static async getBookingsByDate(date: Date) {
+  async getBookingsByDate(date: Date) {
     const bookings = await Booking.findAll({
       include: [
         {
@@ -124,7 +130,7 @@ export default class BookingService {
     return bookings;
   }
 
-  static async confirmBooking(id: number) {
+  async confirmBooking(id: number) {
     const booking = (await Booking.findByPk(id, {
       include: [
         { model: User, as: "user" },
@@ -138,7 +144,7 @@ export default class BookingService {
     const updatedBooking = await booking.update({ confirmed: true });
 
     if (booking.user) {
-      await MailerService.sendConfirmationEmail(
+      await this.mailerService.sendConfirmationEmail(
         booking.user.email,
         booking.user.name,
         booking.date.toString()

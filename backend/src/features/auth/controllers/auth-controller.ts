@@ -6,9 +6,11 @@ const AuthController = express.Router();
 
 AuthController.post("/login", async (req, res, next) => {
   try {
+    const authService = req.container.resolve<AuthService>("AuthService");
+    const userService = req.container.resolve<UserService>("UserService");
     const { email, password } = req.body;
-    const user = await UserService.getUserByEmail(email);
-    const isValidPassword = await AuthService.verifyPassword(
+    const user = await userService.getUserByEmail(email);
+    const isValidPassword = await authService.verifyPassword(
       password,
       user.password
     );
@@ -17,8 +19,8 @@ AuthController.post("/login", async (req, res, next) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = AuthService.generateToken({ userId: user.id });
-    res.status(200).json({ token });
+    const token = authService.generateToken({ userId: user.id });
+    res.json({ token });
   } catch (error) {
     next(error);
   }

@@ -7,8 +7,10 @@ const ServiceController = express.Router();
 // create new service
 ServiceController.post("/create", isAdmin, async (req, res, next) => {
   try {
+    const serviceService =
+      req.container.resolve<ServiceService>("ServiceService");
     const { name, description, booking_type } = req.body;
-    const newService = await ServiceService.createService({
+    const newService = await serviceService.createService({
       name,
       description,
       booking_type,
@@ -22,8 +24,10 @@ ServiceController.post("/create", isAdmin, async (req, res, next) => {
 // get all services
 ServiceController.get("/all", async (req, res, next) => {
   try {
-    const services = await ServiceService.getAllServices();
-    res.status(200).json(services);
+    const serviceService =
+      req.container.resolve<ServiceService>("ServiceService");
+    const services = await serviceService.getAllServices();
+    res.json(services);
   } catch (error) {
     next(error);
   }
@@ -32,9 +36,11 @@ ServiceController.get("/all", async (req, res, next) => {
 // get service by id
 ServiceController.get("/:id", async (req, res, next) => {
   try {
+    const serviceService =
+      req.container.resolve<ServiceService>("ServiceService");
     const { id } = req.params;
-    const service = await ServiceService.getServiceById(Number(id));
-    res.status(200).json(service);
+    const service = await serviceService.getServiceById(Number(id));
+    res.json(service);
   } catch (error) {
     next(error);
   }
@@ -43,14 +49,16 @@ ServiceController.get("/:id", async (req, res, next) => {
 // update service
 ServiceController.put("/:id", isAdmin, async (req, res, next) => {
   try {
+    const serviceService =
+      req.container.resolve<ServiceService>("ServiceService");
     const { id } = req.params;
     const { name, description, booking_type } = req.body;
-    const updatedService = await ServiceService.updateService(Number(id), {
+    const updatedService = await serviceService.updateService(Number(id), {
       name,
       description,
       booking_type,
     });
-    res.status(200).json(updatedService);
+    res.json(updatedService);
   } catch (error) {
     next(error);
   }
@@ -59,9 +67,11 @@ ServiceController.put("/:id", isAdmin, async (req, res, next) => {
 // delete service
 ServiceController.delete("/:id", isAdmin, async (req, res, next) => {
   try {
+    const serviceService =
+      req.container.resolve<ServiceService>("ServiceService");
     const { id } = req.params;
-    const deletedService = await ServiceService.deleteService(Number(id));
-    res.status(200).json(deletedService);
+    const deletedService = await serviceService.deleteService(Number(id));
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

@@ -100,7 +100,7 @@ UserController.delete("/:id", async (req, res, next) => {
     const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
     const deletedUser = await userService.deleteUser(Number(id));
-    res.json(deletedUser);
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

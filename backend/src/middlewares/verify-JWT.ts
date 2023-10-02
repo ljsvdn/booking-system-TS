@@ -18,7 +18,8 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = AuthService.verifyToken(token) as DecodedToken;
+    const authService = req.container.resolve<AuthService>("AuthService");
+    const decoded = authService.verifyToken(token) as DecodedToken;
     req.user = decoded;
     req.role = decoded.role;
     next();

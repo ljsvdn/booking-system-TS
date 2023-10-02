@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 import container from "./utility/container";
+import { CustomRequest } from "./utility/container";
 import { globalErrorHandler } from "./middlewares/global-error-handler";
 import { requestLogger } from "./middlewares/request-logger";
 import { verifyJWT } from "./middlewares/verify-JWT";
@@ -10,6 +11,7 @@ import UserController from "./features/user/controllers/user-controller";
 import AuthController from "./features/auth/controllers/auth-controller";
 import BookingController from "./features/booking/controllers/booking-controller";
 import ServiceController from "./features/service/controllers/service-controller";
+import BookingTimeController from "./features/bookingtime/controllers/booking-time-controller";
 import "./db/database";
 import "./db/associations";
 dotenv.config();
@@ -29,7 +31,8 @@ app
   .use("/api/", apiLimiter)
   // middleware to parse the request body
   .use(express.json())
-  .use((req, _, next) => {
+  // middleware for adding the container to the request object
+  .use("/api", (req: CustomRequest, res: Response, next: NextFunction) => {
     req.container = container;
     next();
   })
@@ -37,7 +40,7 @@ app
   .use("/api/auth", AuthController)
   .use(
     "/api/users",
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
       req.path === "/create" ? next() : verifyJWT(req, res, next);
     },
     isAdmin,
@@ -45,6 +48,7 @@ app
   )
   .use("/api/services", verifyJWT, ServiceController)
   .use("/api/bookings", verifyJWT, BookingController)
+  .use("/api/booking-times", verifyJWT, BookingTimeController)
   // middleware to handle errors
   .use(globalErrorHandler)
   // sample endpoint

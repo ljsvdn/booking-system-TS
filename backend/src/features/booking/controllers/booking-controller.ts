@@ -7,6 +7,8 @@ const BookingController = express.Router();
 // new booking
 BookingController.post("/create", async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const {
       bookingTimeId,
       serviceId,
@@ -15,7 +17,7 @@ BookingController.post("/create", async (req, res, next) => {
       foodPreferences,
       date,
     } = req.body;
-    const newBooking = await BookingService.createBooking({
+    const newBooking = await bookingService.createBooking({
       bookingTimeId,
       serviceId,
       customerId,
@@ -33,9 +35,11 @@ BookingController.post("/create", async (req, res, next) => {
 // get all bookings for a service
 BookingController.get("/all/:serviceId", isAdmin, async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const { serviceId } = req.params;
-    const bookings = await BookingService.getAllBookings(Number(serviceId));
-    res.status(200).json(bookings);
+    const bookings = await bookingService.getAllBookings(Number(serviceId));
+    res.json(bookings);
   } catch (error) {
     next(error);
   }
@@ -44,9 +48,11 @@ BookingController.get("/all/:serviceId", isAdmin, async (req, res, next) => {
 // get booking by id
 BookingController.get("/:id", async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const { id } = req.params;
-    const booking = await BookingService.getBookingById(Number(id));
-    res.status(200).json(booking);
+    const booking = await bookingService.getBookingById(Number(id));
+    res.json(booking);
   } catch (error) {
     next(error);
   }
@@ -55,6 +61,8 @@ BookingController.get("/:id", async (req, res, next) => {
 // update booking
 BookingController.put("/:id", async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const { id } = req.params;
     const {
       bookingTimeId,
@@ -64,7 +72,7 @@ BookingController.put("/:id", async (req, res, next) => {
       foodPreferences,
       date,
     } = req.body;
-    const updatedBooking = await BookingService.updateBooking(Number(id), {
+    const updatedBooking = await bookingService.updateBooking(Number(id), {
       bookingTimeId,
       serviceId,
       customerId,
@@ -73,7 +81,7 @@ BookingController.put("/:id", async (req, res, next) => {
       date,
       confirmed: false,
     });
-    res.status(200).json(updatedBooking);
+    res.json(updatedBooking);
   } catch (error) {
     next(error);
   }
@@ -82,8 +90,10 @@ BookingController.put("/:id", async (req, res, next) => {
 // delete booking
 BookingController.delete("/:id", async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const { id } = req.params;
-    await BookingService.deleteBooking(Number(id));
+    await bookingService.deleteBooking(Number(id));
     res.status(204).end();
   } catch (error) {
     next(error);
@@ -93,10 +103,12 @@ BookingController.delete("/:id", async (req, res, next) => {
 // confirm booking
 BookingController.put("/:id/confirm", isAdmin, async (req, res, next) => {
   try {
+    const bookingService =
+      req.container.resolve<BookingService>("BookingService");
     const { id } = req.params;
-    await BookingService.confirmBooking(Number(id));
+    await bookingService.confirmBooking(Number(id));
 
-    res.status(200).json({ message: "Booking confirmed successfully" });
+    res.json({ message: "Booking confirmed successfully" });
   } catch (error) {
     next(error);
   }
