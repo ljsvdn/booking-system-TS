@@ -4,8 +4,8 @@ const { SENDGRID_API_KEY } = process.env;
 
 sgMail.setApiKey(SENDGRID_API_KEY as string);
 
-export default class MailerService {
-  static async sendEmail(to: string, subject: string, text: string) {
+class MailerService {
+  async sendEmail(to: string, subject: string, text: string) {
     const msg = {
       to: to,
       from: "lvbookingsystem@gmail.com",
@@ -21,7 +21,7 @@ export default class MailerService {
     }
   }
 
-  static async sendConfirmationEmail(to: string, name: string, date: string) {
+  async sendConfirmationEmail(to: string, name: string, date: string) {
     const msg = {
       to: to,
       from: "lvbookingsystem@gmail.com",
@@ -38,10 +38,14 @@ export default class MailerService {
   }
 }
 
+const mailerServiceInstance = new MailerService();
+
+export { mailerServiceInstance as MailerService };
+
 // remove test code before deployment
 async function testMailerService() {
   try {
-    await MailerService.sendEmail(
+    await mailerServiceInstance.sendEmail(
       "lajosvadnai@gmail.com",
       "Test Subject",
       "Hello, this is a test email."

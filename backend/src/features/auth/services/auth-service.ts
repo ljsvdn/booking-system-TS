@@ -1,3 +1,4 @@
+import { injectable } from "tsyringe";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -8,8 +9,9 @@ interface AuthPayload {
   role?: string;
 }
 
+@injectable()
 export default class AuthService {
-  static generateToken(payload: AuthPayload) {
+  generateToken(payload: AuthPayload) {
     return jwt.sign(
       { userId: payload.userId, role: payload.role },
       JWT_SECRET as string,
@@ -17,15 +19,15 @@ export default class AuthService {
     );
   }
 
-  static verifyToken(token: string) {
+  verifyToken(token: string) {
     return jwt.verify(token, JWT_SECRET as string);
   }
 
-  static async hashPassword(password: string) {
+  async hashPassword(password: string) {
     return await bcrypt.hash(password, 10);
   }
 
-  static async verifyPassword(password: string, hash: string) {
+  async verifyPassword(password: string, hash: string) {
     return await bcrypt.compare(password, hash);
   }
 }

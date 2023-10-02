@@ -1,3 +1,4 @@
+import { injectable, inject } from "tsyringe";
 import User from "../models/user-model";
 import AuthService from "../../auth/services/auth-service";
 import HttpError from "../../../utility/http-error";
@@ -12,9 +13,12 @@ interface UserPayload {
   subscribedToNewsletter: boolean;
 }
 
+@injectable()
 export default class UserService {
-  static async createUser(user: UserPayload) {
-    user.password = await AuthService.hashPassword(user.password);
+  constructor(@inject("AuthService") private authService: AuthService) {}
+
+  async createUser(user: UserPayload) {
+    user.password = await this.authService.hashPassword(user.password);
 
     const newUser = await User.create({
       name: user.name,
@@ -26,12 +30,12 @@ export default class UserService {
     return newUser;
   }
 
-  static async getAllUsers() {
+  async getAllUsers() {
     const users = await User.findAll();
     return users;
   }
 
-  static async getUserById(id: number) {
+  async getUserById(id: number) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);
@@ -39,7 +43,7 @@ export default class UserService {
     return user;
   }
 
-  static async getUserByEmail(email: string) {
+  async getUserByEmail(email: string) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
       throw new HttpError("User not found", 404);
@@ -47,21 +51,21 @@ export default class UserService {
     return user;
   }
 
-  static async updateUser(id: number, payload: Partial<UserPayload>) {
+  async updateUser(id: number, payload: Partial<UserPayload>) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);
     }
 
     if (payload.password) {
-      payload.password = await AuthService.hashPassword(payload.password);
+      payload.password = await this.authService.hashPassword(payload.password);
     }
 
     const updatedUser = await user.update(payload);
     return updatedUser;
   }
 
-  static async updateUserPassword(id: number, newPassword: string) {
+  async updateUserPassword(id: number, newPassword: string) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);
@@ -73,7 +77,7 @@ export default class UserService {
     return user;
   }
 
-  static async deleteUser(id: number) {
+  async deleteUser(id: number) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);
@@ -82,7 +86,7 @@ export default class UserService {
     return { message: "User deleted successfully" };
   }
 
-  static async subscribeToNewsletter(id: number) {
+  async subscribeToNewsletter(id: number) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);
@@ -91,7 +95,7 @@ export default class UserService {
     return updatedUser;
   }
 
-  static async unsubscribeFromNewsletter(id: number) {
+  async unsubscribeFromNewsletter(id: number) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new HttpError("User not found", 404);

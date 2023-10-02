@@ -1,6 +1,6 @@
 import express from "express";
 import UserService from "../services/user-service";
-import MailerService from "../../../utility/mailer-service";
+import { MailerService } from "../../../utility/mailer-service";
 import { isAdmin } from "../../../middlewares/is-admin";
 
 const UserController = express.Router();
@@ -8,6 +8,7 @@ const UserController = express.Router();
 // new user
 UserController.post("/create", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const {
       email,
       name,
@@ -17,7 +18,7 @@ UserController.post("/create", async (req, res, next) => {
       preferences,
       subscribedToNewsletter,
     } = req.body;
-    const newUser = await UserService.createUser({
+    const newUser = await userService.createUser({
       email,
       name,
       password,
@@ -43,7 +44,8 @@ UserController.post("/create", async (req, res, next) => {
 // get all users
 UserController.get("/", isAdmin, async (req, res, next) => {
   try {
-    const users = await UserService.getAllUsers();
+    const userService = req.container.resolve<UserService>("UserService");
+    const users = await userService.getAllUsers();
     res.json(users);
   } catch (error) {
     next(error);
@@ -53,11 +55,12 @@ UserController.get("/", isAdmin, async (req, res, next) => {
 // get user by id
 UserController.get("/:id", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
     if (req.user!.userId !== Number(id)) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    const user = await UserService.getUserById(Number(id));
+    const user = await userService.getUserById(Number(id));
     res.json(user);
   } catch (error) {
     next(error);
@@ -67,6 +70,7 @@ UserController.get("/:id", async (req, res, next) => {
 // update user
 UserController.put("/:id", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
     const {
       email,
@@ -76,7 +80,7 @@ UserController.put("/:id", async (req, res, next) => {
       preferences,
       subscribedToNewsletter,
     } = req.body;
-    const updatedUser = await UserService.updateUser(Number(id), {
+    const updatedUser = await userService.updateUser(Number(id), {
       email,
       name,
       role,
@@ -93,8 +97,9 @@ UserController.put("/:id", async (req, res, next) => {
 // delete user
 UserController.delete("/:id", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
-    const deletedUser = await UserService.deleteUser(Number(id));
+    const deletedUser = await userService.deleteUser(Number(id));
     res.json(deletedUser);
   } catch (error) {
     next(error);
@@ -104,8 +109,9 @@ UserController.delete("/:id", async (req, res, next) => {
 // subscribe to newsletter
 UserController.put("/:id/subscribe", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
-    const updatedUser = await UserService.subscribeToNewsletter(Number(id));
+    const updatedUser = await userService.subscribeToNewsletter(Number(id));
     res.json(updatedUser);
   } catch (error) {
     next(error);
@@ -115,8 +121,9 @@ UserController.put("/:id/subscribe", async (req, res, next) => {
 // unsubscribe from newsletter
 UserController.put("/:id/unsubscribe", async (req, res, next) => {
   try {
+    const userService = req.container.resolve<UserService>("UserService");
     const { id } = req.params;
-    const updatedUser = await UserService.unsubscribeFromNewsletter(Number(id));
+    const updatedUser = await userService.unsubscribeFromNewsletter(Number(id));
     res.json(updatedUser);
   } catch (error) {
     next(error);

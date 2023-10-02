@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import rateLimit from "express-rate-limit";
+import container from "./utility/container";
 import { globalErrorHandler } from "./middlewares/global-error-handler";
 import { requestLogger } from "./middlewares/request-logger";
 import { verifyJWT } from "./middlewares/verify-JWT";
@@ -28,6 +29,10 @@ app
   .use("/api/", apiLimiter)
   // middleware to parse the request body
   .use(express.json())
+  .use((req, _, next) => {
+    req.container = container;
+    next();
+  })
   // feature routes
   .use("/api/auth", AuthController)
   .use(
