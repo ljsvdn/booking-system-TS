@@ -8,10 +8,6 @@ import ServiceService from "../features/service/services/service-service";
 import AuthService from "../features/auth/services/auth-service";
 import { MailerService } from "./mailer-service";
 
-export interface CustomRequest extends Request {
-  container: typeof container;
-}
-
 container.register<UserService>("UserService", { useClass: UserService });
 container.register<BookingService>("BookingService", {
   useClass: BookingService,

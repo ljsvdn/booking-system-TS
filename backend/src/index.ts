@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import rateLimit from "express-rate-limit";
 import container from "./utility/container";
-import { CustomRequest } from "./utility/container";
 import { globalErrorHandler } from "./middlewares/global-error-handler";
 import { requestLogger } from "./middlewares/request-logger";
 import { verifyJWT } from "./middlewares/verify-JWT";
@@ -32,7 +31,7 @@ app
   // middleware to parse the request body
   .use(express.json())
   // middleware for adding the container to the request object
-  .use("/api", (req: CustomRequest, _, next: NextFunction) => {
+  .use("/api", (req, _, next) => {
     req.container = container;
     next();
   })
@@ -40,7 +39,7 @@ app
   .use("/api/auth", AuthController)
   .use(
     "/api/users",
-    (req: Request, res: Response, next: NextFunction) => {
+    (req, res, next) => {
       req.path === "/create" ? next() : verifyJWT(req, res, next);
     },
     isAdmin,
@@ -52,7 +51,7 @@ app
   // middleware to handle errors
   .use(globalErrorHandler)
   // sample endpoint
-  .get("/", (req: Request, res: Response) => {
+  .get("/", (req, res) => {
     res.send("Hello World!");
   });
 

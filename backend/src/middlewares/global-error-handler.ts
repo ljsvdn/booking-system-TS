@@ -4,9 +4,9 @@ import HttpError from "../utility/http-error";
 
 export const globalErrorHandler = (
   err: HttpError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next?: NextFunction
 ) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
