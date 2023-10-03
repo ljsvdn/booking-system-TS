@@ -32,7 +32,7 @@ app
   // middleware to parse the request body
   .use(express.json())
   // middleware for adding the container to the request object
-  .use("/api", (req: CustomRequest, res: Response, next: NextFunction) => {
+  .use("/api", (req: CustomRequest, _, next: NextFunction) => {
     req.container = container;
     next();
   })
