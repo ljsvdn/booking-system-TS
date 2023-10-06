@@ -7,8 +7,7 @@ const BookingController = express
   // create booking
   .post("/create", async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const {
         bookingTimeId,
         serviceId,
@@ -34,8 +33,7 @@ const BookingController = express
   // get all bookings for a service
   .get("/all/:serviceId", isAdmin, async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const { serviceId } = req.params;
       const bookings = await bookingService.getAllBookings(Number(serviceId));
       res.json(bookings);
@@ -46,8 +44,7 @@ const BookingController = express
   // get booking by id
   .get("/:id", async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const { id } = req.params;
       const booking = await bookingService.getBookingById(Number(id));
       res.json(booking);
@@ -58,8 +55,7 @@ const BookingController = express
   // update booking
   .put("/:id", async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const { id } = req.params;
       const {
         bookingTimeId,
@@ -86,8 +82,7 @@ const BookingController = express
   // delete booking
   .delete("/:id", async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const { id } = req.params;
       await bookingService.deleteBooking(Number(id));
       res.status(204).end();
@@ -98,8 +93,7 @@ const BookingController = express
   // confirm booking
   .put("/:id/confirm", isAdmin, async (req, res, next) => {
     try {
-      const bookingService =
-        req.container.resolve<BookingService>("BookingService");
+      const bookingService = req.container.resolve(BookingService);
       const { id } = req.params;
       await bookingService.confirmBooking(Number(id));
 

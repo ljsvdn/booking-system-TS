@@ -6,8 +6,7 @@ const BookingTimeController = express
   // new booking time
   .post("/create", async (req, res, next) => {
     try {
-      const bookingTimeService =
-        req.container.resolve<BookingTimeService>("BookingTimeService");
+      const bookingTimeService = req.container.resolve(BookingTimeService);
       const { time } = req.body;
       const newBookingTime = await bookingTimeService.createBookingTime({
         time,
@@ -20,8 +19,7 @@ const BookingTimeController = express
   // get all booking times
   .get("/", async (req, res, next) => {
     try {
-      const bookingTimeService =
-        req.container.resolve<BookingTimeService>("BookingTimeService");
+      const bookingTimeService = req.container.resolve(BookingTimeService);
       const bookingTimes = await bookingTimeService.getAllBookingTimes();
       res.json(bookingTimes);
     } catch (error) {
@@ -31,8 +29,7 @@ const BookingTimeController = express
   // get booking time by id
   .get("/:id", async (req, res, next) => {
     try {
-      const bookingTimeService =
-        req.container.resolve<BookingTimeService>("BookingTimeService");
+      const bookingTimeService = req.container.resolve(BookingTimeService);
       const { id } = req.params;
       const bookingTime = await bookingTimeService.getBookingTimeById(
         Number(id)
@@ -45,8 +42,7 @@ const BookingTimeController = express
   // update booking time by id
   .put("/:id", async (req, res, next) => {
     try {
-      const bookingTimeService =
-        req.container.resolve<BookingTimeService>("BookingTimeService");
+      const bookingTimeService = req.container.resolve(BookingTimeService);
       const { id } = req.params;
       const { time } = req.body;
       const updatedBookingTime = await bookingTimeService.updateBookingTime(
@@ -63,8 +59,7 @@ const BookingTimeController = express
   // delete booking time by id
   .delete("/:id", async (req, res, next) => {
     try {
-      const bookingTimeService =
-        req.container.resolve<BookingTimeService>("BookingTimeService");
+      const bookingTimeService = req.container.resolve(BookingTimeService);
       const { id } = req.params;
       await bookingTimeService.deleteBookingTime(Number(id));
       res.status(204).end();

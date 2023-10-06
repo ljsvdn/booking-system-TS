@@ -7,8 +7,7 @@ const ServiceController = express
   // create new service
   .post("/create", isAdmin, async (req, res, next) => {
     try {
-      const serviceService =
-        req.container.resolve<ServiceService>("ServiceService");
+      const serviceService = req.container.resolve(ServiceService);
       const { name, description, booking_type } = req.body;
       const newService = await serviceService.createService({
         name,
@@ -23,8 +22,7 @@ const ServiceController = express
   // get all services
   .get("/all", async (req, res, next) => {
     try {
-      const serviceService =
-        req.container.resolve<ServiceService>("ServiceService");
+      const serviceService = req.container.resolve(ServiceService);
       const services = await serviceService.getAllServices();
       res.json(services);
     } catch (error) {
@@ -34,8 +32,7 @@ const ServiceController = express
   // get service by id
   .get("/:id", async (req, res, next) => {
     try {
-      const serviceService =
-        req.container.resolve<ServiceService>("ServiceService");
+      const serviceService = req.container.resolve(ServiceService);
       const { id } = req.params;
       const service = await serviceService.getServiceById(Number(id));
       res.json(service);
@@ -46,8 +43,7 @@ const ServiceController = express
   // update service
   .put("/:id", isAdmin, async (req, res, next) => {
     try {
-      const serviceService =
-        req.container.resolve<ServiceService>("ServiceService");
+      const serviceService = req.container.resolve(ServiceService);
       const { id } = req.params;
       const { name, description, booking_type } = req.body;
       const updatedService = await serviceService.updateService(Number(id), {
@@ -63,8 +59,7 @@ const ServiceController = express
   // delete service
   .delete("/:id", isAdmin, async (req, res, next) => {
     try {
-      const serviceService =
-        req.container.resolve<ServiceService>("ServiceService");
+      const serviceService = req.container.resolve(ServiceService);
       const { id } = req.params;
       await serviceService.deleteService(Number(id));
       res.status(204).end();
