@@ -1,5 +1,5 @@
-import Service from '../models/service-model'
 import HttpError from '../../../utility/http-error'
+import Service from '../models/service-model'
 
 interface ServicePayload {
   name: string

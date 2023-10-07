@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express'
-import logger from '../utility/logger'
+import { NextFunction, Request, Response } from 'express'
 import HttpError from '../utility/http-error'
+import logger from '../utility/logger'
 
 export const globalErrorHandler = (
   err: HttpError,

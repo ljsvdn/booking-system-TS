@@ -1,8 +1,8 @@
-import sequelize from './database'
 import { Booking } from '../features/booking/models/booking-model'
 import BookingTime from '../features/bookingtime/models/booking-time-model'
 import Service from '../features/service/models/service-model'
 import User from '../features/user/models/user-model'
+import sequelize from './database'
 
 // set up associations
 Booking.belongsTo(BookingTime, {

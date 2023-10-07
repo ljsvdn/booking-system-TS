@@ -1,7 +1,7 @@
-import { Model, DataTypes, Association } from 'sequelize'
+import { Association, DataTypes, Model } from 'sequelize'
 import sequelize from '../../../db/database'
-import User from '../../user/models/user-model'
 import BookingTime from '../../bookingtime/models/booking-time-model'
+import User from '../../user/models/user-model'
 
 export interface BookingInstance extends Model {
   id: number

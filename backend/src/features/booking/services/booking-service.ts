@@ -1,10 +1,10 @@
-import { injectable, inject } from 'tsyringe'
-import { Booking, BookingInstance } from '../models/booking-model'
-import User from '../../user/models/user-model'
-import BookingTime from '../../bookingtime/models/booking-time-model'
-import Service from '../../service/models/service-model'
+import { inject, injectable } from 'tsyringe'
 import HttpError from '../../../utility/http-error'
 import { MailerService } from '../../../utility/mailer-service'
+import BookingTime from '../../bookingtime/models/booking-time-model'
+import Service from '../../service/models/service-model'
+import User from '../../user/models/user-model'
+import { Booking, BookingInstance } from '../models/booking-model'
 
 interface BookingPayload {
   bookingTimeId: number
