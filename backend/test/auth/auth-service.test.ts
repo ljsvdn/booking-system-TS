@@ -1,4 +1,6 @@
-import AuthService from '../../src/features/auth/services/auth-service'
+import AuthService, {
+  AuthPayload,
+} from '../../src/features/auth/services/auth-service'
 
 describe('AuthService', () => {
   const authService = new AuthService()
@@ -7,34 +9,33 @@ describe('AuthService', () => {
     const payload = { userId: 1, role: 'user' }
     const token = authService.generateToken(payload)
 
-    // Verify that the token is a string and not empty
     expect(typeof token).toBe('string')
     expect(token.length).toBeGreaterThan(0)
   })
 
   it('should verify a valid JWT token', () => {
-    const payload = { userId: 1, role: 'user' }
+    const payload: AuthPayload = { userId: 1, role: 'user' }
     const token = authService.generateToken(payload)
 
-    // Verify that the token can be successfully verified
     const decoded = authService.verifyToken(token)
-    expect(decoded).toEqual(payload)
+    expect(typeof decoded).toBe(typeof payload)
+
+    const { userId, role } = decoded as AuthPayload
+    expect(userId).toEqual(payload.userId)
+    expect(role).toEqual(payload.role)
   })
 
   it('should hash a password', async () => {
     const password = 'password123'
     const hashedPassword = await authService.hashPassword(password)
 
-    // Verify that the hashed password is not empty
     expect(hashedPassword.length).toBeGreaterThan(0)
   })
 
   it('should verify a password against a hash', async () => {
     const password = 'password123'
     const hashedPassword = await authService.hashPassword(password)
-
-    // Verify that the password matches the hashed password
-    const isMatch = await authService.verifyPassword(password, hashedPassword)
-    expect(isMatch).toBe(true)
+    const matches = await authService.verifyPassword(password, hashedPassword)
+    expect(matches).toBe(true)
   })
 })

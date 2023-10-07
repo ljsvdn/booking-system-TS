@@ -4,7 +4,6 @@ import Service from '../features/service/models/service-model'
 import User from '../features/user/models/user-model'
 import sequelize from './database'
 
-// set up associations
 Booking.belongsTo(BookingTime, {
   foreignKey: 'bookingTimeId',
   as: 'bookingTime',
@@ -35,7 +34,6 @@ User.hasMany(Booking, {
   as: 'bookings',
 })
 
-// sync database
 const syncDatabase = async () => {
   try {
     await sequelize.sync({ force: false })

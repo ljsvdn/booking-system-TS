@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe'
 
 const { JWT_SECRET } = process.env
 
-interface AuthPayload {
+export interface AuthPayload {
   userId: number
   role?: string
 }

@@ -10,6 +10,7 @@ const AuthController = express
       const userService = req.container.resolve(UserService)
       const { email, password } = req.body
       const user = await userService.getUserByEmail(email)
+
       const isValidPassword = await authService.verifyPassword(
         password,
         user.password
