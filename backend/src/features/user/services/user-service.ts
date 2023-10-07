@@ -1,7 +1,7 @@
-import { injectable, inject } from "tsyringe";
-import User from "../models/user-model";
-import AuthService from "../../auth/services/auth-service";
+import { inject, injectable } from "tsyringe";
 import HttpError from "../../../utility/http-error";
+import AuthService from "../../auth/services/auth-service";
+import User from "../models/user-model";
 
 interface UserPayload {
   name: string;

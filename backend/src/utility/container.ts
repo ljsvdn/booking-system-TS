@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { Request } from "express";
-import UserService from "../features/user/services/user-service";
+import AuthService from "../features/auth/services/auth-service";
 import BookingService from "../features/booking/services/booking-service";
 import BookingTimeService from "../features/bookingtime/services/booking-time-service";
 import ServiceService from "../features/service/services/service-service";
-import AuthService from "../features/auth/services/auth-service";
+import UserService from "../features/user/services/user-service";
 import { MailerService } from "./mailer-service";
 
 container.register<UserService>("UserService", { useClass: UserService });
