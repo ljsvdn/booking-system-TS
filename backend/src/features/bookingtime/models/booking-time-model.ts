@@ -1,9 +1,9 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../db/database";
+import { Model, DataTypes } from 'sequelize'
+import sequelize from '../../../db/database'
 
 class BookingTime extends Model {
-  id!: number;
-  time!: Date;
+  id!: number
+  time!: Date
 }
 
 BookingTime.init(
@@ -19,10 +19,10 @@ BookingTime.init(
     },
   },
   {
-    tableName: "booking_times",
+    tableName: 'booking_times',
     sequelize,
     timestamps: true,
   }
-);
+)
 
-export default BookingTime;
+export default BookingTime

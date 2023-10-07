@@ -1,48 +1,48 @@
-import sequelize from "./database";
-import { Booking } from "../features/booking/models/booking-model";
-import BookingTime from "../features/bookingtime/models/booking-time-model";
-import Service from "../features/service/models/service-model";
-import User from "../features/user/models/user-model";
+import sequelize from './database'
+import { Booking } from '../features/booking/models/booking-model'
+import BookingTime from '../features/bookingtime/models/booking-time-model'
+import Service from '../features/service/models/service-model'
+import User from '../features/user/models/user-model'
 
 // set up associations
 Booking.belongsTo(BookingTime, {
-  foreignKey: "bookingTimeId",
-  as: "bookingTime",
-});
+  foreignKey: 'bookingTimeId',
+  as: 'bookingTime',
+})
 
 Booking.belongsTo(Service, {
-  foreignKey: "serviceId",
-  as: "service",
-});
+  foreignKey: 'serviceId',
+  as: 'service',
+})
 
 Booking.belongsTo(User, {
-  foreignKey: "customerId",
-  as: "user",
-});
+  foreignKey: 'customerId',
+  as: 'user',
+})
 
 BookingTime.hasMany(Booking, {
-  foreignKey: "bookingTimeId",
-  as: "bookings",
-});
+  foreignKey: 'bookingTimeId',
+  as: 'bookings',
+})
 
 Service.hasMany(Booking, {
-  foreignKey: "serviceId",
-  as: "bookings",
-});
+  foreignKey: 'serviceId',
+  as: 'bookings',
+})
 
 User.hasMany(Booking, {
-  foreignKey: "customerId",
-  as: "bookings",
-});
+  foreignKey: 'customerId',
+  as: 'bookings',
+})
 
 // sync database
 const syncDatabase = async () => {
   try {
-    await sequelize.sync({ force: false });
-    console.log("Database synced");
+    await sequelize.sync({ force: false })
+    console.log('Database synced')
   } catch (error) {
-    console.log("Error syncing database:", error);
+    console.log('Error syncing database:', error)
   }
-};
+}
 
-syncDatabase();
+syncDatabase()
