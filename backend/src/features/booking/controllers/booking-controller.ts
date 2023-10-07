@@ -1,13 +1,13 @@
-import express from "express";
-import { isAdmin } from "../../../middlewares/is-admin";
-import BookingService from "../services/booking-service";
+import express from 'express'
+import { isAdmin } from '../../../middlewares/is-admin'
+import BookingService from '../services/booking-service'
 
 const BookingController = express
   .Router()
   // create booking
-  .post("/create", async (req, res, next) => {
+  .post('/create', async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
+      const bookingService = req.container.resolve(BookingService)
       const {
         bookingTimeId,
         serviceId,
@@ -15,7 +15,7 @@ const BookingController = express
         numberOfGuests,
         foodPreferences,
         date,
-      } = req.body;
+      } = req.body
       const newBooking = await bookingService.createBooking({
         bookingTimeId,
         serviceId,
@@ -24,39 +24,39 @@ const BookingController = express
         foodPreferences,
         date,
         confirmed: false,
-      });
-      res.status(201).json(newBooking);
+      })
+      res.status(201).json(newBooking)
     } catch (error) {
-      next(error);
+      next(error)
     }
   })
   // get all bookings for a service
-  .get("/all/:serviceId", isAdmin, async (req, res, next) => {
+  .get('/all/:serviceId', isAdmin, async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
-      const { serviceId } = req.params;
-      const bookings = await bookingService.getAllBookings(Number(serviceId));
-      res.json(bookings);
+      const bookingService = req.container.resolve(BookingService)
+      const { serviceId } = req.params
+      const bookings = await bookingService.getAllBookings(Number(serviceId))
+      res.json(bookings)
     } catch (error) {
-      next(error);
+      next(error)
     }
   })
   // get booking by id
-  .get("/:id", async (req, res, next) => {
+  .get('/:id', async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
-      const { id } = req.params;
-      const booking = await bookingService.getBookingById(Number(id));
-      res.json(booking);
+      const bookingService = req.container.resolve(BookingService)
+      const { id } = req.params
+      const booking = await bookingService.getBookingById(Number(id))
+      res.json(booking)
     } catch (error) {
-      next(error);
+      next(error)
     }
   })
   // update booking
-  .put("/:id", async (req, res, next) => {
+  .put('/:id', async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
-      const { id } = req.params;
+      const bookingService = req.container.resolve(BookingService)
+      const { id } = req.params
       const {
         bookingTimeId,
         serviceId,
@@ -64,7 +64,7 @@ const BookingController = express
         numberOfGuests,
         foodPreferences,
         date,
-      } = req.body;
+      } = req.body
       const updatedBooking = await bookingService.updateBooking(Number(id), {
         bookingTimeId,
         serviceId,
@@ -73,34 +73,34 @@ const BookingController = express
         foodPreferences,
         date,
         confirmed: false,
-      });
-      res.json(updatedBooking);
+      })
+      res.json(updatedBooking)
     } catch (error) {
-      next(error);
+      next(error)
     }
   })
   // delete booking
-  .delete("/:id", async (req, res, next) => {
+  .delete('/:id', async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
-      const { id } = req.params;
-      await bookingService.deleteBooking(Number(id));
-      res.status(204).end();
+      const bookingService = req.container.resolve(BookingService)
+      const { id } = req.params
+      await bookingService.deleteBooking(Number(id))
+      res.status(204).end()
     } catch (error) {
-      next(error);
+      next(error)
     }
   })
   // confirm booking
-  .put("/:id/confirm", isAdmin, async (req, res, next) => {
+  .put('/:id/confirm', isAdmin, async (req, res, next) => {
     try {
-      const bookingService = req.container.resolve(BookingService);
-      const { id } = req.params;
-      await bookingService.confirmBooking(Number(id));
+      const bookingService = req.container.resolve(BookingService)
+      const { id } = req.params
+      await bookingService.confirmBooking(Number(id))
 
-      res.json({ message: "Booking confirmed successfully" });
+      res.json({ message: 'Booking confirmed successfully' })
     } catch (error) {
-      next(error);
+      next(error)
     }
-  });
+  })
 
-export default BookingController;
+export default BookingController

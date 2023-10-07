@@ -1,36 +1,36 @@
-import { Model, DataTypes, Association } from "sequelize";
-import sequelize from "../../../db/database";
-import User from "../../user/models/user-model";
-import BookingTime from "../../bookingtime/models/booking-time-model";
+import { Association, DataTypes, Model } from 'sequelize'
+import sequelize from '../../../db/database'
+import BookingTime from '../../bookingtime/models/booking-time-model'
+import User from '../../user/models/user-model'
 
 export interface BookingInstance extends Model {
-  id: number;
-  bookingTimeId: number;
-  serviceId: number;
-  customerId: number;
-  numberOfGuests: number;
-  foodPreferences: string;
-  confirmed: boolean;
-  date: Date;
+  id: number
+  bookingTimeId: number
+  serviceId: number
+  customerId: number
+  numberOfGuests: number
+  foodPreferences: string
+  confirmed: boolean
+  date: Date
 
-  user?: User;
-  bookingTime?: BookingTime;
+  user?: User
+  bookingTime?: BookingTime
 }
 
 export class Booking extends Model implements BookingInstance {
-  id!: number;
-  bookingTimeId!: number;
-  serviceId!: number;
-  customerId!: number;
-  numberOfGuests!: number;
-  foodPreferences!: string;
-  confirmed!: boolean;
-  date!: Date;
+  id!: number
+  bookingTimeId!: number
+  serviceId!: number
+  customerId!: number
+  numberOfGuests!: number
+  foodPreferences!: string
+  confirmed!: boolean
+  date!: Date
 
   static associations: {
-    user: Association<Booking, User>;
-    bookingTime: Association<Booking, BookingTime>;
-  };
+    user: Association<Booking, User>
+    bookingTime: Association<Booking, BookingTime>
+  }
 }
 
 Booking.init(
@@ -72,7 +72,7 @@ Booking.init(
     },
   },
   {
-    tableName: "bookings",
+    tableName: 'bookings',
     sequelize,
   }
-);
+)

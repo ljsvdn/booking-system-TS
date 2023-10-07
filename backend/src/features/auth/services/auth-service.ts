@@ -1,12 +1,12 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { injectable } from "tsyringe";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { injectable } from 'tsyringe'
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env
 
 interface AuthPayload {
-  userId: number;
-  role?: string;
+  userId: number
+  role?: string
 }
 
 @injectable()
@@ -15,19 +15,19 @@ export default class AuthService {
     return jwt.sign(
       { userId: payload.userId, role: payload.role },
       JWT_SECRET as string,
-      { expiresIn: "24h" }
-    );
+      { expiresIn: '24h' }
+    )
   }
 
   verifyToken(token: string) {
-    return jwt.verify(token, JWT_SECRET as string);
+    return jwt.verify(token, JWT_SECRET as string)
   }
 
   async hashPassword(password: string) {
-    return await bcrypt.hash(password, 10);
+    return await bcrypt.hash(password, 10)
   }
 
   async verifyPassword(password: string, hash: string) {
-    return await bcrypt.compare(password, hash);
+    return await bcrypt.compare(password, hash)
   }
 }

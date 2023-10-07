@@ -1,18 +1,18 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../db/database";
+import { DataTypes, Model } from 'sequelize'
+import sequelize from '../../../db/database'
 
 class User extends Model {
-  id!: number;
-  name!: string;
-  email!: string;
-  password!: string;
-  role!: string;
-  phoneNumber!: string;
-  preferences!: string;
-  subscribedToNewsletter!: boolean;
+  id!: number
+  name!: string
+  email!: string
+  password!: string
+  role!: string
+  phoneNumber!: string
+  preferences!: string
+  subscribedToNewsletter!: boolean
 
-  readonly createdAt!: Date;
-  readonly updatedAt!: Date;
+  readonly createdAt!: Date
+  readonly updatedAt!: Date
 }
 
 User.init(
@@ -33,7 +33,7 @@ User.init(
     role: {
       type: new DataTypes.STRING(128),
       allowNull: false,
-      defaultValue: "customer",
+      defaultValue: 'customer',
     },
     password: {
       type: new DataTypes.STRING(128),
@@ -55,9 +55,9 @@ User.init(
   },
 
   {
-    tableName: "users",
+    tableName: 'users',
     sequelize,
   }
-);
+)
 
-export default User;
+export default User

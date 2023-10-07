@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import logger from "../utility/logger";
+import { NextFunction, Request, Response } from 'express'
+import logger from '../utility/logger'
 
 export const requestLogger = (
   req: Request,
@@ -10,6 +10,6 @@ export const requestLogger = (
     `HTTP Request: ${req.method} ${req.url}, Params: ${JSON.stringify(
       req.params
     )}, Body: ${JSON.stringify(req.body)}`
-  );
-  next();
-};
+  )
+  next()
+}

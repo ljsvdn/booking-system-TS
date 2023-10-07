@@ -1,47 +1,47 @@
-import BookingTime from "../models/booking-time-model";
+import BookingTime from '../models/booking-time-model'
 
 interface BookingTimePayload {
-  time: Date;
+  time: Date
 }
 
 export default class BookingTimeService {
   async createBookingTime(payload: BookingTimePayload) {
     const newBookingTime = await BookingTime.create({
       time: payload.time,
-    });
-    return newBookingTime;
+    })
+    return newBookingTime
   }
 
   async getAllBookingTimes() {
-    const bookingTimes = await BookingTime.findAll();
-    return bookingTimes;
+    const bookingTimes = await BookingTime.findAll()
+    return bookingTimes
   }
 
   async getBookingTimeById(id: number) {
-    const bookingTime = await BookingTime.findByPk(id);
-    return bookingTime;
+    const bookingTime = await BookingTime.findByPk(id)
+    return bookingTime
   }
 
   async updateBookingTime(id: number, payload: BookingTimePayload) {
-    const bookingTime = await BookingTime.findByPk(id);
+    const bookingTime = await BookingTime.findByPk(id)
 
     if (!bookingTime) {
-      throw new Error("Booking time not found");
+      throw new Error('Booking time not found')
     }
 
-    bookingTime.time = payload.time;
-    await bookingTime.save();
+    bookingTime.time = payload.time
+    await bookingTime.save()
 
-    return bookingTime;
+    return bookingTime
   }
 
   async deleteBookingTime(id: number) {
-    const bookingTime = await BookingTime.findByPk(id);
+    const bookingTime = await BookingTime.findByPk(id)
 
     if (!bookingTime) {
-      throw new Error("Booking time not found");
+      throw new Error('Booking time not found')
     }
 
-    await bookingTime.destroy();
+    await bookingTime.destroy()
   }
 }
