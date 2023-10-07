@@ -1,6 +1,6 @@
-import { injectable } from "tsyringe";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { injectable } from "tsyringe";
 
 const { JWT_SECRET } = process.env;
 
