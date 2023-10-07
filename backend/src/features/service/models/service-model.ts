@@ -1,11 +1,11 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../../db/database";
+import { DataTypes, Model } from 'sequelize'
+import sequelize from '../../../db/database'
 
 class Service extends Model {
-  id!: number;
-  name!: string;
-  description!: string;
-  booking_type!: string;
+  id!: number
+  name!: string
+  description!: string
+  booking_type!: string
 }
 
 Service.init(
@@ -26,13 +26,13 @@ Service.init(
     booking_type: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "predefined",
+      defaultValue: 'predefined',
     },
   },
   {
-    tableName: "services",
+    tableName: 'services',
     sequelize,
   }
-);
+)
 
-export default Service;
+export default Service
