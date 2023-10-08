@@ -1,3 +1,4 @@
+import HttpError from '../../../utility/http-error'
 import BookingTime from '../models/booking-time-model'
 
 interface BookingTimePayload {
@@ -26,7 +27,7 @@ export default class BookingTimeService {
     const bookingTime = await BookingTime.findByPk(id)
 
     if (!bookingTime) {
-      throw new Error('Booking time not found')
+      throw new HttpError('Booking time not found', 404)
     }
 
     bookingTime.time = payload.time
@@ -39,7 +40,7 @@ export default class BookingTimeService {
     const bookingTime = await BookingTime.findByPk(id)
 
     if (!bookingTime) {
-      throw new Error('Booking time not found')
+      throw new HttpError('Booking time not found', 404)
     }
 
     await bookingTime.destroy()

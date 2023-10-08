@@ -44,9 +44,7 @@ export default class UserService {
   }
 
   async getUserByEmail(email: string) {
-    console.log('lofasz:', email)
     const user = await User.findOne({ where: { email } })
-    console.log('emil:', email, user)
     if (!user) {
       throw new HttpError('User not found', 404)
     }
