@@ -2,8 +2,9 @@ import AuthService, {
   AuthPayload,
 } from '../../src/features/auth/services/auth-service'
 
+// To be finished after frontend is done
 describe('AuthService', () => {
-  const authService = new AuthService()
+  let authService: AuthService
 
   it('should generate a valid JWT token', () => {
     const payload = { userId: 1, role: 'user' }
