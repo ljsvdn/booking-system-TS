@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize'
 
 const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT } = process.env
 
-console.log(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT)
+// console.log(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT)
 
 const sequelize = new Sequelize({
   dialect: 'postgres',
