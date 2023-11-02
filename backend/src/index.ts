@@ -2,8 +2,12 @@ import dotenv from 'dotenv'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import 'reflect-metadata'
+
+dotenv.config()
+
 import './db/associations'
 import './db/database'
+
 import AuthController from './features/auth/controllers/auth-controller'
 import BookingController from './features/booking/controllers/booking-controller'
 import BookingTimeController from './features/bookingtime/controllers/booking-time-controller'
@@ -14,8 +18,6 @@ import { isAdmin } from './middlewares/is-admin'
 import { requestLogger } from './middlewares/request-logger'
 import { verifyJWT } from './middlewares/verify-JWT'
 import container from './utility/container'
-
-dotenv.config()
 
 const app = express()
 
