@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { injectable } from 'tsyringe'
-import HttpError from '../../../utility/http-error'
+import HttpError from '../../../utils/http-error'
 import UserService from '../../user/services/user-service'
 
 const { JWT_SECRET } = process.env

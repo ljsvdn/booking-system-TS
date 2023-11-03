@@ -1,4 +1,4 @@
-import HttpError from '../../../utility/http-error'
+import HttpError from '../../../utils/http-error'
 import BookingTime from '../models/booking-time-model'
 
 interface BookingTimePayload {

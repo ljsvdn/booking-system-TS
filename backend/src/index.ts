@@ -17,7 +17,7 @@ import { globalErrorHandler } from './middlewares/global-error-handler'
 import { isAdmin } from './middlewares/is-admin'
 import { requestLogger } from './middlewares/request-logger'
 import { verifyJWT } from './middlewares/verify-JWT'
-import container from './utility/container'
+import container from './utils/container'
 
 const app = express()
 

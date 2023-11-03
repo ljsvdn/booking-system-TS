@@ -1,6 +1,6 @@
 import express from 'express'
 import { isAdmin } from '../../../middlewares/is-admin'
-import { MailerService } from '../../../utility/mailer-service'
+import { MailerService } from '../../../utils/mailer-service'
 import UserService from '../services/user-service'
 
 const UserController = express

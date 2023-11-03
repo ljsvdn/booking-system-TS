@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe'
-import HttpError from '../../../utility/http-error'
-import { MailerService } from '../../../utility/mailer-service'
+import HttpError from '../../../utils/http-error'
+import { MailerService } from '../../../utils/mailer-service'
 import BookingTime from '../../bookingtime/models/booking-time-model'
 import Service from '../../service/models/service-model'
 import User from '../../user/models/user-model'

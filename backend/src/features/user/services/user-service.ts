@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe'
-import HttpError from '../../../utility/http-error'
+import HttpError from '../../../utils/http-error'
 import AuthService from '../../auth/services/auth-service'
 import User from '../models/user-model'
 
