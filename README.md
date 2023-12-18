@@ -1,18 +1,24 @@
-# Booking System
-
-## Overview
-
-This is a general-purpose booking system built using TypeScript, Node.js, Express, and Sequelize. The project is structured into `backend` and `frontend` folders for better separation of concerns.
+# Project Name
 
 ## Features
 
-- RESTful API for CRUD operations
-- User-friendly interface for booking
+- REST API for booking different services
+- User-friendly interface for booking different services
 - Database integration using Sequelize
+
+## Tech Stack
+
+- NodeJS
+- TypeScript
+- Sequelize
+- MySQL
+- ExpressJS
+- React
+- Vite
 
 ## Prerequisites
 
-- Node.js
+- NodeJS
 - npm
 - TypeScript
 - MySQL
@@ -29,7 +35,9 @@ This is a general-purpose booking system built using TypeScript, Node.js, Expres
 
 ### Frontend Setup
 
-(Instructions to be added)
+1. Navigate to the `frontend` directory.
+2. Run `npm install` to install dependencies.
+3. Run `npm run dev` to start the development server.
 
 ## Usage
 

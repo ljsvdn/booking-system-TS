@@ -40,7 +40,8 @@ export default class AuthService {
       throw new HttpError('Invalid credentials', 401)
     }
 
-    return this.generateToken({ userId: user.id })
+    const token = this.generateToken({ userId: user.id, role: user.role })
+    return { token, isAdmin: user.role === 'admin' }
   }
 
   async hashPassword(password: string) {
