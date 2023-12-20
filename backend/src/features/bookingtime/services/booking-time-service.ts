@@ -2,13 +2,15 @@ import HttpError from '../../../utils/http-error'
 import BookingTime from '../models/booking-time-model'
 
 interface BookingTimePayload {
-  time: Date
+  date: Date
+  startTime: string
 }
 
 export default class BookingTimeService {
   async createBookingTime(payload: BookingTimePayload) {
     const newBookingTime = await BookingTime.create({
-      time: payload.time,
+      date: payload.date,
+      startTime: payload.startTime,
     })
     return newBookingTime
   }
@@ -30,7 +32,8 @@ export default class BookingTimeService {
       throw new HttpError('Booking time not found', 404)
     }
 
-    bookingTime.time = payload.time
+    bookingTime.date = payload.date
+    bookingTime.startTime = payload.startTime
     await bookingTime.save()
 
     return bookingTime

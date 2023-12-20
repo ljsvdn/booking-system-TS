@@ -10,18 +10,20 @@ const BookingController = express
       const bookingService = req.container.resolve(BookingService)
       const {
         bookingTimeId,
-        serviceId,
-        customerId,
+        name,
+        email,
+        phoneNumber,
         numberOfGuests,
-        foodPreferences,
+        preferences,
         date,
       } = req.body
       const newBooking = await bookingService.createBooking({
         bookingTimeId,
-        serviceId,
-        customerId,
+        name,
+        email,
+        phoneNumber,
         numberOfGuests,
-        foodPreferences,
+        preferences,
         date,
         confirmed: false,
       })
@@ -30,12 +32,11 @@ const BookingController = express
       next(error)
     }
   })
-  // get all bookings for a service
-  .get('/all/:serviceId', isAdmin, async (req, res, next) => {
+  // get all bookings
+  .get('/all', isAdmin, async (req, res, next) => {
     try {
       const bookingService = req.container.resolve(BookingService)
-      const { serviceId } = req.params
-      const bookings = await bookingService.getAllBookings(Number(serviceId))
+      const bookings = await bookingService.getAllBookings()
       res.json(bookings)
     } catch (error) {
       next(error)
@@ -59,18 +60,20 @@ const BookingController = express
       const { id } = req.params
       const {
         bookingTimeId,
-        serviceId,
-        customerId,
+        name,
+        email,
+        phoneNumber,
         numberOfGuests,
-        foodPreferences,
+        preferences,
         date,
       } = req.body
       const updatedBooking = await bookingService.updateBooking(Number(id), {
         bookingTimeId,
-        serviceId,
-        customerId,
+        name,
+        email,
+        phoneNumber,
         numberOfGuests,
-        foodPreferences,
+        preferences,
         date,
         confirmed: false,
       })

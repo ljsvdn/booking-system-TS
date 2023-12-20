@@ -2,16 +2,15 @@ import { inject, injectable } from 'tsyringe'
 import HttpError from '../../../utils/http-error'
 import { MailerService } from '../../../utils/mailer-service'
 import BookingTime from '../../bookingtime/models/booking-time-model'
-import Service from '../../service/models/service-model'
-import User from '../../user/models/user-model'
 import { Booking, BookingInstance } from '../models/booking-model'
 
 interface BookingPayload {
   bookingTimeId: number
-  serviceId: number
-  customerId: number
+  name: string
+  email: string
+  phoneNumber: string
   numberOfGuests: number
-  foodPreferences: string
+  preferences: string
   date: Date
   confirmed: false
 }
@@ -23,48 +22,17 @@ export default class BookingService {
   ) {}
 
   async createBooking(payload: BookingPayload) {
-    const service = await Service.findByPk(payload.serviceId)
+    const bookingTime = await BookingTime.findByPk(payload.bookingTimeId)
 
-    if (!service) {
-      throw new HttpError('Service not found', 404)
+    if (!bookingTime) {
+      throw new HttpError('Booking time not found', 404)
     }
 
-    let bookingTimeId = payload.bookingTimeId
-
-    if (service.booking_type === 'predefined') {
-      const bookingTime = await BookingTime.findByPk(bookingTimeId)
-
-      if (!bookingTime) {
-        throw new HttpError('Booking time not found', 404)
-      }
-    } else {
-      // Create a new booking time
-      const newBookingTime = await BookingTime.create({ time: payload.date })
-      bookingTimeId = newBookingTime.id
-    }
-
-    const existingBooking = await Booking.findOne({
-      where: {
-        serviceId: payload.serviceId,
-        bookingTimeId: bookingTimeId,
-        date: payload.date,
-      },
-    })
-
-    if (existingBooking) {
-      throw new HttpError('Booking already exists', 409)
-    }
-
-    const newBooking = await Booking.create({
-      ...payload,
-      bookingTimeId,
-    })
-
-    return newBooking
+    const newBooking = await Booking.create(payload as any)
   }
 
-  async getAllBookings(serviceId: number) {
-    const bookings = await Booking.findAll({ where: { serviceId } })
+  async getAllBookings() {
+    const bookings = await Booking.findAll()
     return bookings
   }
 
@@ -110,11 +78,6 @@ export default class BookingService {
     await booking.destroy()
   }
 
-  async getBookingsByUserId(userId: number) {
-    const bookings = await Booking.findAll({ where: { userId } })
-    return bookings
-  }
-
   async getBookingsByDate(date: Date) {
     const bookings = await Booking.findAll({
       include: [
@@ -122,7 +85,23 @@ export default class BookingService {
           model: BookingTime,
           as: 'bookingTime',
           where: {
-            time: date,
+            date: date,
+          },
+        },
+      ],
+    })
+    return bookings
+  }
+
+  async getBookingsByDateAndTime(date: Date, startTime: string) {
+    const bookings = await Booking.findAll({
+      include: [
+        {
+          model: BookingTime,
+          as: 'bookingTime',
+          where: {
+            date: date,
+            startTime: startTime,
           },
         },
       ],
@@ -132,24 +111,22 @@ export default class BookingService {
 
   async confirmBooking(id: number) {
     const booking = (await Booking.findByPk(id, {
-      include: [
-        { model: User, as: 'user' },
-        { model: BookingTime, as: 'bookingTime' },
-      ],
+      include: [{ model: BookingTime, as: 'bookingTime' }],
     })) as BookingInstance
 
     if (!booking) {
       throw new HttpError('Booking not found', 404)
     }
-    const updatedBooking = await booking.update({ confirmed: true })
 
-    if (booking.user) {
+    if (booking) {
       await this.mailerService.sendConfirmationEmail(
-        booking.user.email,
-        booking.user.name,
+        booking.email,
+        booking.name,
         booking.date.toString()
       )
     }
+
+    const updatedBooking = await booking.update({ confirmed: true })
 
     return updatedBooking
   }

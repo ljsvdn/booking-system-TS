@@ -7,9 +7,10 @@ const BookingTimeController = express
   .post('/create', async (req, res, next) => {
     try {
       const bookingTimeService = req.container.resolve(BookingTimeService)
-      const { time } = req.body
+      const { date, startTime } = req.body
       const newBookingTime = await bookingTimeService.createBookingTime({
-        time,
+        date: date,
+        startTime: startTime,
       })
       res.status(201).json(newBookingTime)
     } catch (error) {
@@ -44,11 +45,12 @@ const BookingTimeController = express
     try {
       const bookingTimeService = req.container.resolve(BookingTimeService)
       const { id } = req.params
-      const { time } = req.body
+      const { date, startTime } = req.body
       const updatedBookingTime = await bookingTimeService.updateBookingTime(
         Number(id),
         {
-          time,
+          date: date,
+          startTime: startTime,
         }
       )
       res.json(updatedBookingTime)

@@ -3,7 +3,8 @@ import sequelize from '../../../db/database'
 
 class BookingTime extends Model {
   id!: number
-  time!: Date
+  date!: Date
+  startTime!: string
 }
 
 BookingTime.init(
@@ -13,8 +14,12 @@ BookingTime.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    time: {
+    date: {
       type: new DataTypes.DATE(),
+      allowNull: false,
+    },
+    startTime: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

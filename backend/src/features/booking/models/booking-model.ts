@@ -1,34 +1,33 @@
 import { Association, DataTypes, Model } from 'sequelize'
 import sequelize from '../../../db/database'
 import BookingTime from '../../bookingtime/models/booking-time-model'
-import User from '../../user/models/user-model'
 
 export interface BookingInstance extends Model {
   id: number
   bookingTimeId: number
-  serviceId: number
-  customerId: number
+  name: string
+  email: string
+  phoneNumber: string
   numberOfGuests: number
-  foodPreferences: string
+  preferences: string
   confirmed: boolean
   date: Date
 
-  user?: User
   bookingTime?: BookingTime
 }
 
 export class Booking extends Model implements BookingInstance {
   id!: number
   bookingTimeId!: number
-  serviceId!: number
-  customerId!: number
+  name!: string
+  email!: string
+  phoneNumber!: string
   numberOfGuests!: number
-  foodPreferences!: string
+  preferences!: string
   confirmed!: boolean
   date!: Date
 
   static associations: {
-    user: Association<Booking, User>
     bookingTime: Association<Booking, BookingTime>
   }
 }
@@ -45,19 +44,23 @@ Booking.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    serviceId: {
-      type: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    customerId: {
-      type: DataTypes.INTEGER,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     numberOfGuests: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    foodPreferences: {
+    preferences: {
       type: DataTypes.STRING,
       allowNull: true,
     },
