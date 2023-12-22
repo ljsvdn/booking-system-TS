@@ -1,9 +1,10 @@
 import { FC } from 'react'
+import Step1 from '../components/Step1'
 
 const HomePage: FC = () => {
   return (
     <div>
-      <h1>Home Page</h1>
+      <Step1 />
     </div>
   )
 }

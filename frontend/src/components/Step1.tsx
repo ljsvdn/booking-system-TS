@@ -35,7 +35,7 @@ const Step1: FC = () => {
       <div className="contactinfo-container">
         <div
           className="divider"
-          style={{ borderBottom: '1px solid' }}
+          style={{ borderBottom: isDividerOpen ? '0px' : '1px solid' }}
           onClick={handleDividerClick}
         >
           <i className="fas fa-clock"></i>
@@ -70,3 +70,5 @@ const Step1: FC = () => {
     </div>
   )
 }
+
+export default Step1
