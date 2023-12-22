@@ -11,7 +11,6 @@ import './db/database'
 import AuthController from './features/auth/controllers/auth-controller'
 import BookingController from './features/booking/controllers/booking-controller'
 import BookingTimeController from './features/bookingtime/controllers/booking-time-controller'
-import ServiceController from './features/service/controllers/service-controller'
 import UserController from './features/user/controllers/user-controller'
 import { globalErrorHandler } from './middlewares/global-error-handler'
 import { isAdmin } from './middlewares/is-admin'
@@ -49,7 +48,6 @@ app
     isAdmin,
     UserController
   )
-  .use('/api/services', verifyJWT, ServiceController)
   .use('/api/bookings', verifyJWT, BookingController)
   .use('/api/booking-times', verifyJWT, BookingTimeController)
   // middleware to handle errors

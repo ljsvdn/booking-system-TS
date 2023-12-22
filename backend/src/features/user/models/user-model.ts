@@ -27,7 +27,7 @@ User.init(
     role: {
       type: new DataTypes.STRING(128),
       allowNull: false,
-      defaultValue: 'admin',
+      defaultValue: 'admin', // we'll only have admin users for now
     },
     password: {
       type: new DataTypes.STRING(128),

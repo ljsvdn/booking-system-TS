@@ -23,6 +23,11 @@ export default class UserService {
     return user
   }
 
+  async getUserByEmail(email: string) {
+    const user = await User.findOne({ where: { email } })
+    return user
+  }
+
   async updateUser(id: number, payload: UserPayload) {
     const user = await User.findByPk(id)
     if (!user) {

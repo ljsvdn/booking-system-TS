@@ -1,14 +1,14 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { FC, FormEvent, useState } from 'react'
 import HttpError from '../utils/http-error'
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setLoading(true)
 
